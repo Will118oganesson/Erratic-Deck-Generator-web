@@ -91,4 +91,4 @@ async function displayDeck() {
     // }
 }
 
-document.getElementById("genButton").addEventListener("click", displayDeck);
+document.getElementById("genButton").addEventListener("click", () => {displayDeck()});
