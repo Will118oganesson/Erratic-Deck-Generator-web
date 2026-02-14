@@ -18,6 +18,7 @@ suits = ["hearts", "clubs", "diamonds", "spades"]
 
 
 const deckTable = document.getElementById("decktable");
+const animateCheckbox = document.getElementById("animateCheckbox");
 
 function generateErraticDeck(){
     erraticDeck = []
@@ -38,25 +39,40 @@ function generateErraticDeck(){
     return erraticDeck
 }
 
-function displayDeck() {
+function createCardImage(card) {
+    const img = document.createElement("img");
+    img.src = `img/balatroCards/${ranks[card.rank]}_of_${suits[card.suit]}.png`;;
+    img.alt = `${capitalizeFirstLetter(ranks[card.rank])} of ${capitalizeFirstLetter(suits[card.suit])}`;
+    img.classList.add("card-img");
+    return img;
+}
+
+async function displayDeck() {
     deckTable.innerHTML = ""; // clear old cards
     deck = generateErraticDeck()
 
     for (let s = 0; s < suits.length; s++) {
         const suitRow = document.createElement("div");
         suitRow.classList.add("suit-row");
+        deckTable.appendChild(suitRow)
 
         // Filter cards of this suit
         const suitCards = deck.filter(card => card.suit === s);
-        for(let card of suitCards){
-            const img = document.createElement("img");
-            img.src = `img/balatroCards/${ranks[card.rank]}_of_${suits[card.suit]}.png`;
-            img.alt = `${capitalizeFirstLetter(ranks[card.rank])} of ${capitalizeFirstLetter(suits[card.suit])}`;
-            img.classList.add("card-img");
-            console.log("card appended")
-            suitRow.appendChild(img);
+
+        if(animateCheckbox.checked){
+            for(let card of suitCards){
+                const img = createCardImage(card);
+                suitRow.appendChild(img);
+                await new Promise(r => setTimeout(r, 100)); // 100ms delay
+            }
+        }else{
+            for(let card of suitCards){
+                const img = createCardImage(card)
+                suitRow.appendChild(img);
+            }
         }
-        deckTable.appendChild(suitRow)
+
+        
     }
     
     
