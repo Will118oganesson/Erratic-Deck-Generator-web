@@ -28,7 +28,7 @@ h1 {
 }
 
 .card-img {
-    width: 90px;
+    width: 80px;
     height: auto;      /* maintain aspect ratio */
     flex: 0 0 auto;    /* prevent flex from stretching the image */
 }

@@ -47,48 +47,60 @@ function createCardImage(card) {
     return img;
 }
 
+function animateDeckSequential(deck) {
+    const suitsInOrder = [0, 1, 2, 3]; // hearts, clubs, diamonds, spades
+    let suitIndex = 0;
+
+    function animateNextSuit() {
+        if (suitIndex >= suitsInOrder.length) return; // done
+
+        const s = suitsInOrder[suitIndex];
+        
+        const suitRow = document.createElement("div");
+        suitRow.classList.add("suit-row");
+        deckTable.appendChild(suitRow);
+
+        const suitCards = deck.filter(card => card.suit === s);
+
+        let cardIndex = 0;
+        function animateCard() {
+            if (cardIndex >= suitCards.length) {
+                suitIndex++;           // move to next suit
+                setTimeout(animateNextSuit, 100); // optional delay between suits
+                return;
+            }
+
+            const card = suitCards[cardIndex];
+            const img = createCardImage(card);
+            suitRow.appendChild(img);
+            cardIndex++;
+            setTimeout(animateCard, 100); // delay between cards
+        }
+
+        animateCard(); // start animating current suit
+    }
+
+    animateNextSuit(); // start animation
+}
+
 async function displayDeck() {
     deckTable.innerHTML = ""; // clear old cards
     deck = generateErraticDeck()
 
-    for (let s = 0; s < suits.length; s++) {
-        const suitRow = document.createElement("div");
-        suitRow.classList.add("suit-row");
-        deckTable.appendChild(suitRow)
+    if(animateCheckbox.checked){
+            animateDeckSequential(deck);
+    }else{
+        for (let s = 0; s < suits.length; s++) {
+            const suitRow = document.createElement("div");
+            suitRow.classList.add("suit-row");
+            deckTable.appendChild(suitRow);
 
-        // Filter cards of this suit
-        const suitCards = deck.filter(card => card.suit === s);
-
-        if(animateCheckbox.checked){
-            for(let card of suitCards){
-                const img = createCardImage(card);
-                suitRow.appendChild(img);
-                await new Promise(r => setTimeout(r, 100)); // 100ms delay
-            }
-        }else{
-            for(let card of suitCards){
-                const img = createCardImage(card)
-                suitRow.appendChild(img);
+            const suitCards = deck.filter(card => card.suit === s);
+            for (let card of suitCards) {
+                suitRow.appendChild(createCardImage(card));
             }
         }
-
-        
     }
-    
-    
-
-    // for (let suit of suits) {
-    //     for (let rank of ranks) {
-    //         const img = document.createElement("img");
-    //         img.src = `img/png/${rank}_of_${suit}.png`;
-    //         img.alt = `img/png/${rank}${suit}.png`;
-    //         //img.alt = `${capitalizeFirstLetter(rank)} of ${capitalizeFirstLetter(suit)}`;
-    //         img.classList.add("card-img");
-    //         console.log("card appended")
-
-    //         deckTable.appendChild(img);
-    //     }
-    // }
 }
 
 document.getElementById("genButton").addEventListener("click", () => {displayDeck()});
