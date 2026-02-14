@@ -44,6 +44,7 @@ function createCardImage(card) {
     img.src = `img/balatroCards/${ranks[card.rank]}_of_${suits[card.suit]}.png`;;
     img.alt = `${capitalizeFirstLetter(ranks[card.rank])} of ${capitalizeFirstLetter(suits[card.suit])}`;
     img.classList.add("card-img");
+    img.rel = "prefetch"
     return img;
 }
 
