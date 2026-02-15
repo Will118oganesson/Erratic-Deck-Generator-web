@@ -1,5 +1,6 @@
 body {
   background-color: #1a1a1a; 
+  image-rendering: pixelated;
   font-family: 'Balatro';
   color: #fff;
   margin: 0;
