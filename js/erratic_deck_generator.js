@@ -126,8 +126,14 @@ async function displayDeck() {
     }
 }
 
-window.addEventListener("DOMContentLoaded", async () => {
+genButton.disabled = true;
+genButton.innerHTML = "Loading Cards..."
+
+document.addEventListener("DOMContentLoaded", async () => {
     await preloadFullDeck();
+    genButton.disabled = false;
+    genButton.innerHTML = "Generate New Deck"
 });
+
 
 document.getElementById("genButton").addEventListener("click", () => {displayDeck()});
