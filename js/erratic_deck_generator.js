@@ -20,6 +20,16 @@ suits = ["hearts", "clubs", "diamonds", "spades"]
 const deckTable = document.getElementById("decktable");
 const animateCheckbox = document.getElementById("animateCheckbox");
 
+function preloadImages(){
+    for(let suit of suits){
+        for(let rnak of ranks){
+            var image = new Image();
+            url = `img/balatroCards/${rank}_of_${suit}.png`;;
+            image.src = url;
+        }
+    }  
+}
+
 function generateErraticDeck(){
     erraticDeck = []
     for(let i = 0; i < 52; i++){
@@ -104,4 +114,5 @@ async function displayDeck() {
     }
 }
 
+document.addEventListener("load", () => {preloadImages()})
 document.getElementById("genButton").addEventListener("click", () => {displayDeck()});
