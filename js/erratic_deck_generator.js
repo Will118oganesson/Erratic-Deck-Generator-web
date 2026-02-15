@@ -45,7 +45,7 @@ function createCardImage(card) {
     img.src = `img/balatroCards/${ranks[card.rank]}_of_${suits[card.suit]}.png`;;
     img.alt = `${capitalizeFirstLetter(ranks[card.rank])} of ${capitalizeFirstLetter(suits[card.suit])}`;
     img.classList.add("card-img");
-    img.rel = "prefetch"
+    img.fetchPriority = "high"
     return img;
 }
 
@@ -129,7 +129,7 @@ async function displayDeck() {
 genButton.disabled = true;
 genButton.innerHTML = "Loading Cards..."
 
-document.addEventListener("DOMContentLoaded", async () => {
+window.addEventListener("DOMContentLoaded", async () => {
     await preloadFullDeck();
     genButton.disabled = false;
     genButton.innerHTML = "Generate New Deck"
