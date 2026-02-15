@@ -1,7 +1,7 @@
 body {
   background-color: #1a1a1a; 
+  font-family: 'Balatro';
   color: #fff;
-  font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
@@ -9,7 +9,10 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+
 }
+
+
 
 h1 {
   text-align: center;
@@ -41,4 +44,10 @@ h1 {
     gap: 10px;
     justify-content: center;
     align-items: flex-start; /* prevent stretching of images */
+}
+
+@font-face {
+  font-family: 'Balatro';
+  src: url("../fonts/m6x11.ttf") format("truetype");
+  
 }
