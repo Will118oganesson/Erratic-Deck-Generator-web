@@ -20,15 +20,6 @@ suits = ["hearts", "clubs", "diamonds", "spades"]
 const deckTable = document.getElementById("decktable");
 const animateCheckbox = document.getElementById("animateCheckbox");
 
-function preloadImages(){
-    for(let suit of suits){
-        for(let rnak of ranks){
-            var image = new Image();
-            url = `img/balatroCards/${rank}_of_${suit}.png`;;
-            image.src = url;
-        }
-    }  
-}
 
 function generateErraticDeck(){
     erraticDeck = []
@@ -56,6 +47,27 @@ function createCardImage(card) {
     img.classList.add("card-img");
     img.rel = "prefetch"
     return img;
+}
+
+async function preloadFullDeck() {
+    const promises = [];
+
+    for (let suit of suits) {
+        for (let rank of ranks) {
+            const src = `img/balatroCards/${rank}_of_${suit}.png`;
+
+            promises.push(new Promise(resolve => {
+                const img = new Image();
+                img.src = src;
+                img.onload = resolve;
+                img.onerror = resolve; // avoid hanging if one fails
+            }));
+        }
+    }
+
+    await Promise.all(promises);
+
+    console.log("Full deck preloaded.");
 }
 
 function animateDeckSequential(deck) {
@@ -114,5 +126,8 @@ async function displayDeck() {
     }
 }
 
-document.addEventListener("load", () => {preloadImages()})
+window.addEventListener("DOMContentLoaded", async () => {
+    await preloadFullDeck();
+});
+
 document.getElementById("genButton").addEventListener("click", () => {displayDeck()});
